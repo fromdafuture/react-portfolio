@@ -29,11 +29,29 @@ function ModalWindow({ firstLeft, firstTop, uniqueKey, pushMeUp }) {
     setBackIsVisible(false)
   }
 
+
+  let offsetX, offsetY
+  const move = e => {
+    const el = e.target
+    el.style.left = `${e.pageX - offsetX}px`
+    el.style.top = `${e.pageY - offsetY}px`
+  }
+  const add = e => {
+    const el = e.target
+    offsetX = e.clientX - el.getBoundingClientRect().left
+    offsetY = e.clientY - el.getBoundingClientRect().top
+    el.addEventListener('mousemove', move)
+  }
+  const remove = e => {
+    const el = e.target
+    el.removeEventListener('mousemove', move)
+  }
+
   return (
     <div>
       <div className='modal-window' style={style}> a modal Window #{uniqueKey}
         <div className="modal-window__lt" onMouseDown={mouseDown}></div>
-        <div className="modal-window__rt" onMouseDown={mouseDown}></div>
+        <div className="modal-window__rt" onMouseDown={add} onMouseUp={remove}></div>
         <div className="modal-window__lb" onMouseDown={mouseDown}></div>
         <div className="modal-window__rb" onMouseDown={mouseDown}></div>
 
@@ -45,11 +63,8 @@ function ModalWindow({ firstLeft, firstTop, uniqueKey, pushMeUp }) {
       <div
         className={backIsVisible ? "modal-window__mouse-listener" : "modal-window__mouse-listener_hidden"}
         onMouseMove={(ev) => mouseMovement(ev)}
-        onMouseDown={mouseDown}
         onMouseUp={mouseUp}></div>
-      <div
-        className="modal-window__coords">
-        mouseIsDown={mouseIsDown}</div>
+
     </div>
   )
 }

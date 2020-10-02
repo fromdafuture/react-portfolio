@@ -5,7 +5,7 @@ function ModalWindows() {
   const [modals, setModals] = useState([]);
 
   useEffect(() => {
-    setModals(Array(100)
+    setModals(Array(200)
       .fill('')
       .map((item, index) => {
         return {
@@ -27,26 +27,23 @@ function ModalWindows() {
   }
 
   const style = {
+    overflowY: 'scroll',
     zIndex: 10,
     color: 'black',
-    position: 'fixed',
+    position: 'absolute',
     right: 20,
-    top: 10
-
-
+    top: 10,
+    height: '90%',
   }
 
   return (
     <div>
-      <div> this is some modal windows holder    </div>
       {modals.map((item) => <ModalWindow {...item} uniqueKey={item.key} pushMeUp={pushWindowUp} />)}
       <ul style={style}>
         {modals.map((item) => <li key={item.key}> {item.key} </li>)}
       </ul>
     </div >
   )
-
-
 }
 
 export default ModalWindows;
